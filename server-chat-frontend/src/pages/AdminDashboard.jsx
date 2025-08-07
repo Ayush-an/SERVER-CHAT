@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import WordCloudComponent from './WordCloudComponent.jsx';
 import { ModalContext, NotificationContext } from './ModalAndNotification.jsx';
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 
 const AdminDashboard = () => {
   const [sets, setSets] = useState([]);
@@ -37,7 +39,7 @@ const AdminDashboard = () => {
   const fetchSets = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:5000/api/admin/sets', { headers });
+      const res = await axios.get(`${API_BASE_URL}/api/admin/sets`, { headers });
       setSets(res.data);
       console.log('Fetched sets:', res.data);
     } catch (error) {
@@ -55,7 +57,7 @@ const AdminDashboard = () => {
       setLoading(true);
       
       // 1. Fetch all questions for the selected set
-      const questionsRes = await axios.get(`http://localhost:5000/api/admin/questions/set/${setId}`, { headers });
+      const questionsRes = await axios.get(`${API_BASE_URL}/api/admin/questions/set/${setId}`, { headers });
       const fetchedQuestions = questionsRes.data;
       setQuestions(fetchedQuestions);
       console.log('Step 1: Fetched questions:', fetchedQuestions);
@@ -72,7 +74,7 @@ const AdminDashboard = () => {
       
       // 2. Fetch all answers for each question in the set concurrently
       const answersPromises = fetchedQuestions.map(q => 
-        axios.get(`http://localhost:5000/api/admin/answers/${q._id}`, { headers })
+        axios.get(`${API_BASE_URL}/api/admin/answers/${q._id}`, { headers })
       );
       const answersResults = await Promise.all(answersPromises);
 
@@ -132,7 +134,7 @@ const AdminDashboard = () => {
       async () => {
         if (newSetTitle.trim()) {
           try {
-            await axios.post('http://localhost:5000/api/admin/set', { title: newSetTitle }, { headers });
+            await axios.post(`${API_BASE_URL}/api/admin/set`, { title: newSetTitle }, { headers });
             showNotification('Set created successfully!', 'success');
             fetchSets();
           } catch (error) {
@@ -152,7 +154,7 @@ const AdminDashboard = () => {
       : [''];
 
     try {
-      await axios.post('http://localhost:5000/api/admin/question', { 
+      await axios.post(`${API_BASE_URL}/api/admin/question`, { 
         text: questionText, 
         type: questionType, 
         options,

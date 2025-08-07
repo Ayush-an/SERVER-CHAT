@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { NotificationContext } from './ModalAndNotification';
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const QuizPage = () => {
   const [question, setQuestion] = useState(null);
@@ -32,7 +33,7 @@ const QuizPage = () => {
 
   const fetchQuestion = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/user/current-question');
+      const res = await axios.get(`${API_BASE_URL}/api/user/current-question`);
       setQuestion(res.data);
     } catch (error) {
       showNotification('No active question found!', 'error');
@@ -45,7 +46,7 @@ const QuizPage = () => {
 
     setSubmitted(true);
     try {
-      await axios.post('http://localhost:5000/api/user/submit', {
+      await axios.post(`${API_BASE_URL}/api/user/submit`, {
         userId,
         questionId: question._id,
         text: answer,

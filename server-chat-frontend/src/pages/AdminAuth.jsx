@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { NotificationContext } from './ModalAndNotification.jsx';
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const AdminAuth = () => {
   const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ const AdminAuth = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/admin/auth/signin', { email, password });
+      const res = await axios.post(`${API_BASE_URL}/api/admin/auth/signin`, { email, password });
       localStorage.setItem('adminToken', res.data.token);
       showNotification('Login successful!', 'success');
       navigate('/admin/dashboard');

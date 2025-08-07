@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { NotificationContext } from './ModalAndNotification.jsx';
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const UserRegister = () => {
   const [formData, setFormData] = useState({ name: '', class: '', mobile: '' });
@@ -15,7 +16,7 @@ const UserRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/user/register', formData);
+      const res = await axios.post(`${API_BASE_URL}/api/user/register`, formData);
       localStorage.setItem('userId', res.data._id);
       showNotification('Registration successful!', 'success');
       navigate('/quiz');
