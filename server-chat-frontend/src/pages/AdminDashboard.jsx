@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import WordCloudComponent from './WordCloudComponent.jsx';
 import { ModalContext, NotificationContext } from './ModalAndNotification.jsx';
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 
 const AdminDashboard = () => {

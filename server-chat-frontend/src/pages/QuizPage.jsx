@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { NotificationContext } from './ModalAndNotification';
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 const QuizPage = () => {
   const [question, setQuestion] = useState(null);
